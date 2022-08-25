@@ -1130,6 +1130,8 @@ struct SplitCode {
     new_tag.trim_offset = trim_offset;
     new_tag.has_after = false;
     new_tag.has_before = false;
+    new_tag.has_after_group = false;
+    new_tag.has_before_group = false;
     new_tag.partial5 = false;
     new_tag.partial3 = false;
     
