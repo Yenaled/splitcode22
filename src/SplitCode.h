@@ -2783,6 +2783,7 @@ struct SplitCode {
         }
         uint32_t tag_id;
         int error;
+        std::cerr << "ATTEMPT_FETCH_TAG" << k << " " << pos << std::endl;
         if (getTag(seq, tag_id, file, pos, k, error, readLength, look_for_initiator, 
                    search_tag_name_after, search_group_after, search_id_after,
                    search_tag_before, group_curr, name_id_curr, search_after_start)) {
