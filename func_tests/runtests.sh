@@ -43,6 +43,16 @@ checkcmdoutput() {
 	fi	
 }
 
+echo "@read0
+AAGCTTCCGG
++
+KI;<)(,%#$
+@read1
+AAGCTTCCGG
++
+I;<*,(,%#$" > $test_dir/test.fq
+
+
 # Adapter trimming tests
 
 echo "0.35"
