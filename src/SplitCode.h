@@ -2756,7 +2756,7 @@ struct SplitCode {
         auto k = loc.first;
         auto pos = loc.second;
         // DEBUG:
-        // std::cout << "file=" << file << " k=" << k << " pos=" << pos << std::endl;
+        std::cerr << "file=" << file << " k=" << k << " pos=" << pos << std::endl;
         auto umi_seen_copy = umi_seen; // Copy; use umi_seen_copy for querying (we don't want to overwrite umi_seen while we're still using it)
         if (do_extract) { // Do UMI extraction based on location (iterate through all UMI-anchored locations up through current pos)
           while (it_umi_loc != umi_loc_map.end() && it_umi_loc->first.first <= file && it_umi_loc->first.second <= pos) {
@@ -2786,6 +2786,7 @@ struct SplitCode {
         if (getTag(seq, tag_id, file, pos, k, error, readLength, look_for_initiator, 
                    search_tag_name_after, search_group_after, search_id_after,
                    search_tag_before, group_curr, name_id_curr, search_after_start)) {
+          std::cerr << "getTag(): " << tag_id << std::endl;
           look_for_initiator = false;
           auto& tag = tags_vec[tag_id];
           if (tag.min_finds > 0) {
@@ -2844,6 +2845,7 @@ struct SplitCode {
             results.tag_trimmed_left.resize(jmax, {{0,0}, {0,0}});
             results.tag_trimmed_left[file].first = std::make_pair(tag.name_id, left_trim);
             results.tag_trimmed_left[file].second = std::make_pair(k, error);
+            std::cerr << "getTag_left_trim: " << tag_id << " left_trim:" << left_trim << " k:" << k << " error:" << error << " file:" << file << std::endl;
           } else if (tag.trim == right && !right_trim_found) {
             right_trim = (readLength-pos)+tag.trim_offset;
             right_trim = std::min(right_trim, readLength);
