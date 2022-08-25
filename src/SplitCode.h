@@ -1490,6 +1490,7 @@ struct SplitCode {
     int updated_error;
     bool found = false;
     while (k_expanded != -1) {
+      std::cerr << "WITHIN_ATTEMPT_TAG: " << seq << k_expanded << " " << pos << std::endl;
       bool found_curr = false;
       uint32_t tag_id_;
       int error_prev;
@@ -1499,6 +1500,8 @@ struct SplitCode {
       k_expanded = -1;
       const auto& it = tags.find(SeqString(seq.c_str()+pos, curr_k));
       if (it == tags.end()) {
+      size_t xxxx = tags.size();
+      std::cerr << "BREAK_ATTEMPT_TAG: " << seq << curr_k << " " << pos << " tags.size()=" << xxxx << std::endl;
         break;
       }
       for (auto &x : it->second) {
