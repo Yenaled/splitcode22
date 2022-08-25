@@ -1514,11 +1514,14 @@ struct SplitCode {
         tag_id_ = x.first;
         auto& tag = tags_vec[tag_id_];
         if (search_tag_name_after && tag.name_id != search_id_after) {
+          std::cerr << "__WITHIN_ATTEMPT_TAG_A" << std::endl;
           continue;
         } else if (search_group_after && tag.group != search_id_after) {
+          std::cerr << "__WITHIN_ATTEMPT_TAG_B" << std::endl;
           continue;
         }
         if (tag.has_before || tag.has_before_group) {
+          std::cerr << "__WITHIN_ATTEMPT_TAG_C" << std::endl;
           if (!search_tag_before) {
             continue;
           }
@@ -1540,8 +1543,11 @@ struct SplitCode {
           continue;
         }
         if (tag.partial3 && pos+curr_k != l) {
+          std::cerr << "__WITHIN_ATTEMPT_TAG_D" << std::endl;
           continue;
         }
+        std::cerr << "__WITHIN_ATTEMPT_TAG_E: tag.file=" << tag.file << " tag.pos_start=" << tag.pos_start << " tag.pos_end=" << tag.pos_end << std::endl;
+        std::cerr << "__WITHIN_ATTEMPT_TAG_F: file=" << file << " pos=" << pos << " curr_k=" << curr_k << " l=" << l << std::endl;
         if (containsRegion(tag.file, tag.pos_start, tag.pos_end, file, pos, pos+curr_k, l)) {
           std::cerr << "__WITHIN_ATTEMPT_TAG3: tag.file=" << tag.file << " tag.pos_start=" << tag.pos_start << " tag.pos_end=" << tag.pos_end << std::endl;
           if (!look_for_initiator || (look_for_initiator && tags_vec[tag_id_].initiator)) {
