@@ -1505,7 +1505,9 @@ struct SplitCode {
         break;
       }
       for (auto &x : it->second) {
+        std::cerr << "__WITHIN_ATTEMPT_TAG1: " << x.first << " " << x.second << std::endl;
         if (x.second == -1) {
+          std::cerr << "__WITHIN_ATTEMPT_TAG_EXPANDED: k_expanded=" << x.first << std::endl;
           k_expanded = x.first;
           continue;
         }
@@ -1534,14 +1536,17 @@ struct SplitCode {
           }
         }
         if (tag.partial5 && pos != 0) {
+          std::cerr << "__WITHIN_ATTEMPT_TAG2: (tag.partial5 && pos != 0)" << std::endl;
           continue;
         }
         if (tag.partial3 && pos+curr_k != l) {
           continue;
         }
         if (containsRegion(tag.file, tag.pos_start, tag.pos_end, file, pos, pos+curr_k, l)) {
+          std::cerr << "__WITHIN_ATTEMPT_TAG3: tag.file=" << tag.file << " tag.pos_start=" << tag.pos_start << " tag.pos_end=" << tag.pos_end << std::endl;
           if (!look_for_initiator || (look_for_initiator && tags_vec[tag_id_].initiator)) {
             if (found_curr && tag.name_id != name_id_curr) {
+              std::cerr << "__WITHIN_ATTEMPT_TAG3_BREAK" << std::endl;
               found_curr = false; // seq of length curr_k maps to multiple tags of different names
               break;
             }
@@ -1551,14 +1556,17 @@ struct SplitCode {
             }
             name_id_curr = tag.name_id;
             found_curr = true;
+              std::cerr << "__WITHIN_ATTEMPT_TAG3_FOUND_CURR" << name_id_curr << std::endl;
           }
         }
       }
+      std::cerr << "__WITHIN_ATTEMPT_TAG4:" << found_curr << std::endl;
       // Algorithm works as follows:
       // // for a given k, remove that k from consideration if there are multiple tag.name_id's for that k
       // // however, if there are multiple tags of the same name_id for that k, pick the tag with the smallest error
       // // afterwards, compare across all k's being considered: if multiple tag.name_id's across different k's, return false (-1), otherwise pick the tag associated with the largest k
       if (found_curr) {
+      std::cerr << "__WITHIN_ATTEMPT_TAG5:" << found_curr << std::endl;
         if (!found) { // First time identifying a tag
           found = true;
           updated_tag_id = tag_id_curr;
@@ -1567,6 +1575,7 @@ struct SplitCode {
           updated_name_id = name_id_curr;
         } else { // Already previously identified a tag when looking at a smaller k
           if (updated_name_id != name_id_curr) {
+            std::cerr << "__WITHIN_ATTEMPT_TAG5_BREAK" << std::endl;
             return false; // multiple tags of different names
           }
           if (updated_error >= error_prev) { // Choose smallest error first when deciding if to update to larger k
@@ -1579,6 +1588,7 @@ struct SplitCode {
       }
     }
     if (found) {
+      std::cerr << "__WITHIN_ATTEMPT_TAG6:" << tag_id << std::endl;
       tag_id = updated_tag_id;
       k = updated_k;
       error = updated_error;
